@@ -1,4 +1,4 @@
-package com.invoiceme.utiles;
+package es.gmbdesign.invoiceme.utiles;
 
 public enum TipoDocumento {
 	PRESUPUESTO("Presupuesto"), 

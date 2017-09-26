@@ -1,4 +1,4 @@
-package com.invoiceme.servlets;
+package es.gmbdesign.invoiceme.servlets;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.invoiceme.dto.Documento;
+
+import es.gmbdesign.invoiceme.dto.Documento;
 
 public class RegisterDeviceOnAPI extends HttpServlet {
 	private static final long serialVersionUID = 1L;

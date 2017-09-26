@@ -1,4 +1,4 @@
-package com.invoiceme.exceptions;
+package es.gmbdesign.invoiceme.exceptions;
 
 public class BackendDAOException extends Exception {
 

@@ -1,4 +1,4 @@
-package com.invoiceme.bbdd;
+package es.gmbdesign.invoiceme.bbdd;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,9 +9,10 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 
-import com.invoiceme.exceptions.BackendDAOException;
-import com.invoiceme.utiles.PropertyUtil;
 import com.jolbox.bonecp.BoneCPDataSource;
+
+import es.gmbdesign.invoiceme.exceptions.BackendDAOException;
+import es.gmbdesign.invoiceme.utiles.PropertyUtil;
 
 public class ConnectionHandler {
 	
@@ -22,7 +23,7 @@ public class ConnectionHandler {
 
     private static Logger logger = Logger.getLogger(ConnectionHandler.class);
 
-    public static String DB_SCHEME = PropertyUtil.getProperty("scheme.mandarina");
+    public static String DB_SCHEME = PropertyUtil.getProperty("scheme");
 
     /** Datasource creado por el pool de conexiones. */
     private static DataSource cpdsMandarina = null;
@@ -53,7 +54,7 @@ public class ConnectionHandler {
                 ps.close();
             }
         } catch (SQLException e) {
-            logger.error("An error ocurred while tried to close the database query objects: " + e.getMessage(), e);
+            logger.error("Ha ocurrido un error mientras se intentaba cerarr los objetos query: " + e.getMessage(), e);
             throw new BackendDAOException(e.getMessage(), e);
         }
     }
@@ -70,12 +71,12 @@ public class ConnectionHandler {
                 connection.close();
             }
         } catch (Exception e) {
-            logger.error("An error ocurred while tried to close connection: " + e.getMessage(), e);
+            logger.error("Ha ocurrido un error mientras es intentaba cerrar la conexión: " + e.getMessage(), e);
         }
     }
 
     /**
-     * Rollback operations.
+     * Rollback.
      *
      * @param connection Connection object.
      */
@@ -85,12 +86,12 @@ public class ConnectionHandler {
                 connection.rollback();
             }
         } catch (SQLException e) {
-            logger.error("An error ocurred while tried to rollback connection: " + e.getMessage(), e);
+            logger.error("Ha ocurrido un error mientras se intentaba un rollback: " + e.getMessage(), e);
         }
     }
 
     /**
-     * Commit operations.
+     * Commit.
      *
      * @param connection Connection object.
      * @throws BackendDAOException .
@@ -101,15 +102,15 @@ public class ConnectionHandler {
                 connection.commit();
             }
         } catch (SQLException e) {
-            logger.error("An error ocurred while tried to rollback connection: " + e.getMessage(), e);
+            logger.error("Ha ocurrido un error mientras se intentaba un commit: " + e.getMessage(), e);
             throw new BackendDAOException(e.getMessage(), e);
         }
     }
 
     /**
-     * Get number of leased connections.
+     * Recupera el numero de conexiones creadas.
      *
-     * @return number of leased connections, -1 if connections pool is not created yet.
+     * @return numero de conexiones, -1 si el pool no se ha creado aún.
      */
     public static int size() {
         int result = -1;
@@ -124,7 +125,7 @@ public class ConnectionHandler {
     }
 
     /**
-     * Gives access to datasource.
+     * Da acceso al DataSource.
      *
      * @return datasource.
      */
@@ -142,7 +143,7 @@ public class ConnectionHandler {
     private static synchronized DataSource getDataSource(String dbUrl) {
         BoneCPDataSource cpds = null;
         try {
-            logger.debug("[ConnectionManager.getDS]. Creating datasource for " + dbUrl);
+            logger.debug("[ConnectionManager.getDS]. Creando dataSource para " + dbUrl);
             String user = PropertyUtil.getProperty("database.user");
             String password = PropertyUtil.getProperty("database.password");
             String driver = PropertyUtil.getProperty("database.driver");
@@ -155,7 +156,7 @@ public class ConnectionHandler {
             }
 
             if (driver != null) {
-                Class.forName(driver); // load the DB driver
+                Class.forName(driver);
                 cpds = new BoneCPDataSource();
 
                 cpds.setJdbcUrl(dbUrl);
@@ -173,17 +174,17 @@ public class ConnectionHandler {
         return cpds;
     }
 
-    /** Close datasource and its connections. */
+    /** Cierra DataSource y sus conexiones. */
     private static void destroyDatasource(BoneCPDataSource dataSource) {
         if (dataSource != null) {
-            logger.debug("[ConnectionManager.destroyDatasource]. Close datasource");
+            logger.debug("[ConnectionManager.destroyDatasource]. Cerrando DataSource");
             dataSource.close();
             dataSource = null;
         }
     }
 
     /**
-     * Opens the connection if closed.
+     * Abra la conexión si está cerrada.
      *
      * @return Connection object.
      * @throws BackendDAOException .
@@ -199,7 +200,7 @@ public class ConnectionHandler {
                     if (connection != null) {
                         break;
                     }
-                    logger.debug("[ConnectionManager.getConnection]. Waiting for a connection. " + size() + " open.");
+                    logger.debug("[ConnectionManager.getConnection]. Esperando por una conexión. " + size() + " open.");
                     try {
                         Thread.sleep(WAITING_INTERVAL);
                     } catch (InterruptedException ex) {

@@ -1,4 +1,4 @@
-package com.invoiceme.exceptions;
+package es.gmbdesign.invoiceme.exceptions;
 
 public class ListaProductosVacia extends Exception {
 	private static final long serialVersionUID = -7093395127661232747L;

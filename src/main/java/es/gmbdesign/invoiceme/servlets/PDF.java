@@ -1,4 +1,4 @@
-package com.invoiceme.servlets;
+package es.gmbdesign.invoiceme.servlets;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,9 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.invoiceme.dto.Documento;
-import com.invoiceme.exceptions.ListaProductosVacia;
-import com.invoiceme.utiles.FacturaTemplate;
+
+import es.gmbdesign.invoiceme.dto.Documento;
+import es.gmbdesign.invoiceme.exceptions.ListaProductosVacia;
+import es.gmbdesign.invoiceme.utiles.FacturaTemplate;
 
 public class PDF extends HttpServlet {
 

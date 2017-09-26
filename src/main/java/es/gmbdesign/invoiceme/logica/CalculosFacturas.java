@@ -1,7 +1,7 @@
-package com.invoiceme.logica;
+package es.gmbdesign.invoiceme.logica;
 
-import com.invoiceme.dto.Producto;
-import com.invoiceme.exceptions.ListaProductosVacia;
+import es.gmbdesign.invoiceme.dto.Producto;
+import es.gmbdesign.invoiceme.exceptions.ListaProductosVacia;
 
 import java.util.Iterator;
 import java.util.List;

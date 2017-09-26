@@ -1,4 +1,4 @@
-package com.invoiceme.dto;
+package es.gmbdesign.invoiceme.dto;
 
 import java.io.Serializable;
 import java.util.Date;

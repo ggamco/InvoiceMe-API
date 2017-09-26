@@ -1,4 +1,4 @@
-package com.invoiceme.dto;
+package es.gmbdesign.invoiceme.dto;
 
 public class Emisor {
 	private String nombre;

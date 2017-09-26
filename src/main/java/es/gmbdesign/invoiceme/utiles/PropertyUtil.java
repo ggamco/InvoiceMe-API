@@ -1,4 +1,4 @@
-package com.invoiceme.utiles;
+package es.gmbdesign.invoiceme.utiles;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -33,7 +33,7 @@ public class PropertyUtil {
     public static String getProperty(String key, String defaultValue) {
         long now = System.currentTimeMillis();
         if (now > refreshPeriod + lastLoaded) {
-            logger.debug("reloading properties");
+            logger.debug("recargando Properties...");
             initializeProperties();
         }
         return getPropertyValue(key, defaultValue);
@@ -48,7 +48,7 @@ public class PropertyUtil {
     private static void initializeProperties() {
         Properties tmpProperties = getProperties();
         if (tmpProperties == null) {
-            logger.fatal("Properties could not be loaded");
+            logger.fatal("Properties no han podido ser cargadas");
         } else {
             properties = tmpProperties;
             lastLoaded = System.currentTimeMillis();
@@ -73,9 +73,9 @@ public class PropertyUtil {
                 tmpProperties = loadProperties(reader);
             }
         } catch (FileNotFoundException e) {
-            logger.error("Not found properties file: " + pathProperties + ", " + e.getMessage());
+            logger.error("No se ha encontrado el archivo properties: " + pathProperties + ", " + e.getMessage());
         } catch (UnsupportedEncodingException e) {
-            logger.error("Error reading file: " + pathProperties + " --> " + e.getMessage(), e);
+            logger.error("Erro leyendo el archivo: " + pathProperties + " --> " + e.getMessage(), e);
         }
         return tmpProperties;
     }
@@ -99,7 +99,7 @@ public class PropertyUtil {
             StringWriter sw = new StringWriter();
             tmp.list(new PrintWriter(sw));
         } catch (IOException e) {
-            logger.error("Could not load properties from file " + pathProperties, e);
+            logger.error("No se pueden cargar propiedades desde el archivo " + pathProperties, e);
         }
         return tmp;
     }

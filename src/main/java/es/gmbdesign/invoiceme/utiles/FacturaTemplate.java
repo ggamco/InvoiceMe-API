@@ -1,9 +1,5 @@
-package com.invoiceme.utiles;
+package es.gmbdesign.invoiceme.utiles;
 
-import com.invoiceme.dto.Documento;
-import com.invoiceme.dto.Producto;
-import com.invoiceme.exceptions.ListaProductosVacia;
-import com.invoiceme.logica.CalculosFacturas;
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -17,6 +13,11 @@ import com.itextpdf.text.pdf.GrayColor;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import es.gmbdesign.invoiceme.dto.Documento;
+import es.gmbdesign.invoiceme.dto.Producto;
+import es.gmbdesign.invoiceme.exceptions.ListaProductosVacia;
+import es.gmbdesign.invoiceme.logica.CalculosFacturas;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

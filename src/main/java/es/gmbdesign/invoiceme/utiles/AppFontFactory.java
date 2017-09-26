@@ -1,4 +1,4 @@
-package com.invoiceme.utiles;
+package es.gmbdesign.invoiceme.utiles;
 
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;

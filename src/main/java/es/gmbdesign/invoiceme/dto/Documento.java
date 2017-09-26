@@ -1,9 +1,9 @@
-package com.invoiceme.dto;
+package es.gmbdesign.invoiceme.dto;
 
-import com.invoiceme.dto.Emisor;
-import com.invoiceme.dto.Producto;
-import com.invoiceme.dto.Receptor;
-import com.invoiceme.utiles.TipoDocumento;
+import es.gmbdesign.invoiceme.dto.Emisor;
+import es.gmbdesign.invoiceme.dto.Producto;
+import es.gmbdesign.invoiceme.dto.Receptor;
+import es.gmbdesign.invoiceme.utiles.TipoDocumento;
 
 import java.util.List;
 
