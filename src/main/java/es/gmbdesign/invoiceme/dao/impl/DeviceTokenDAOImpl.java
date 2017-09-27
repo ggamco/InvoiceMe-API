@@ -16,7 +16,7 @@ public class DeviceTokenDAOImpl implements IDeviceTokenDAO {
 	private final Logger logger = Logger.getLogger(DeviceTokenDAOImpl.class);
 	
 	@Override
-	public boolean almacenarTokenDevice(Connection connection, DeviceRegistered device) throws Exception {
+	public boolean almacenarTokenDevice(Connection connection, DeviceRegistered device) throws BackendDAOException, SQLException {
 		boolean respuesta = false;
 		if (device != null) {
 			logger.debug("Preparando la llamada para almacenar en el dispositivo en base de datos para el usuario: " + device.getUser());

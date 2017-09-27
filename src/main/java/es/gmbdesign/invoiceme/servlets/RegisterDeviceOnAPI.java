@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.jsonwebtoken.*;
@@ -16,10 +18,12 @@ import es.gmbdesign.invoiceme.dao.IDeviceTokenDAO;
 import es.gmbdesign.invoiceme.dao.impl.DeviceTokenDAOImpl;
 import es.gmbdesign.invoiceme.dto.DeviceRegistered;
 import es.gmbdesign.invoiceme.dto.Documento;
+import es.gmbdesign.invoiceme.exceptions.BackendDAOException;
 import es.gmbdesign.invoiceme.utiles.PropertyUtil;
 
 public class RegisterDeviceOnAPI extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final Logger logger = Logger.getLogger(RegisterDeviceOnAPI.class);
        
     /**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -37,29 +41,42 @@ public class RegisterDeviceOnAPI extends HttpServlet {
 		String line;
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		DeviceRegistered device = null;
-		ConnectionHandler connectionHandler = null;
-		Connection connection = null;
-		IDeviceTokenDAO deviceTokenDAO = null;
 		
 		try{
 			while((line = req.getReader().readLine()) != null){
 				sb.append(line);
 			}
 			device = (DeviceRegistered) gson.fromJson(sb.toString(), DeviceRegistered.class);
-			//TODO: almacenar el objeto en base de datos para auditoria.
-			connectionHandler = new ConnectionHandler();
-			deviceTokenDAO = new DeviceTokenDAOImpl();
-			connection = connectionHandler.getConnection(ConnectionHandler.DB_SCHEME);
-			deviceTokenDAO.almacenarTokenDevice(connection, device);
-			resp.setHeader("Authorization", createJWT(device));
-			resp.setStatus(HttpServletResponse.SC_OK);
+			if (registarDispositivoEnAPI(device)) {
+				resp.setHeader("Authorization", createJWT(device));
+				resp.setStatus(HttpServletResponse.SC_CREATED);
+			} else {
+				resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+			}	
 		}catch(Exception e){
 			System.out.println("exception: " + e.getMessage());
 			resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	private boolean registarDispositivoEnAPI(DeviceRegistered device) {
+		boolean resultado = false;
+		ConnectionHandler connectionHandler = new ConnectionHandler();
+		Connection connection = null;
+		IDeviceTokenDAO deviceTokenDAO = new DeviceTokenDAOImpl();
+		try {
+			connection = connectionHandler.getConnection(ConnectionHandler.DB_SCHEME);
+			if (deviceTokenDAO.almacenarTokenDevice(connection, device)) {
+				resultado = true;
+			}
+		} catch (BackendDAOException ex) {
+			logger.error(ex.getLocalizedMessage());
+		} catch (Exception ex) {
+			logger.error(ex.getLocalizedMessage());
 		} finally {
-			//TODO: Cerrar recursos de acceso a base de datos.
 			ConnectionHandler.closeConnection(connection);
 		}
+		return resultado;
 	}
 	
 	private String createJWT (DeviceRegistered device) {
