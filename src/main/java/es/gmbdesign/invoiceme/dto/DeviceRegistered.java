@@ -10,18 +10,20 @@ public class DeviceRegistered implements Serializable {
 	private String tokenDevice;
 	private Date registeredDate;
 	private String appVersion;
+	private String hash;
 	
 	public DeviceRegistered() {
 		super();
 	}
 	public DeviceRegistered(int id_deviceRegistered, String user, String tokenDevice, Date registeredDate,
-			String appVersion) {
+			String appVersion, String hash) {
 		super();
 		this.id_deviceRegistered = id_deviceRegistered;
 		this.user = user;
 		this.tokenDevice = tokenDevice;
 		this.registeredDate = registeredDate;
 		this.appVersion = appVersion;
+		this.hash = hash;
 	}
 	public int getId_deviceRegistered() {
 		return id_deviceRegistered;
@@ -53,6 +55,10 @@ public class DeviceRegistered implements Serializable {
 	public void setAppVersion(String appVersion) {
 		this.appVersion = appVersion;
 	}
-	
-	
+	public String getHash() {
+		return hash;
+	}
+	public void setHash(String hash) {
+		this.hash = hash;
+	}
 }

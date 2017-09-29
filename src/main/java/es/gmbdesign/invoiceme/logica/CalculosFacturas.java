@@ -10,7 +10,7 @@ public class CalculosFacturas {
 	public static float calcularIVA(List<Producto> productos) throws ListaProductosVacia {
 		float iva = 0.0F;
 		if (productos != null) {
-			Iterator arg1 = productos.iterator();
+			Iterator<Producto> arg1 = productos.iterator();
 
 			while (arg1.hasNext()) {
 				Producto p = (Producto) arg1.next();
@@ -28,7 +28,7 @@ public class CalculosFacturas {
 	public static float calcularIRPF(List<Producto> productos) throws ListaProductosVacia {
 		float irpf = 0.0F;
 		if (productos != null) {
-			Iterator arg1 = productos.iterator();
+			Iterator<Producto> arg1 = productos.iterator();
 
 			while (arg1.hasNext()) {
 				Producto p = (Producto) arg1.next();
@@ -49,7 +49,7 @@ public class CalculosFacturas {
 			throw new ListaProductosVacia();
 		} else {
 			Producto p;
-			for (Iterator arg1 = productos.iterator(); arg1.hasNext(); total += p.getImporte()) {
+			for (Iterator<Producto> arg1 = productos.iterator(); arg1.hasNext(); total += p.getImporte()) {
 				p = (Producto) arg1.next();
 			}
 

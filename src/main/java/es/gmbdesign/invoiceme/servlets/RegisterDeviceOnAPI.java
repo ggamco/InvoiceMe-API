@@ -12,29 +12,21 @@ import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.jsonwebtoken.*;
 import es.gmbdesign.invoiceme.bbdd.ConnectionHandler;
 import es.gmbdesign.invoiceme.dao.IDeviceTokenDAO;
 import es.gmbdesign.invoiceme.dao.impl.DeviceTokenDAOImpl;
 import es.gmbdesign.invoiceme.dto.DeviceRegistered;
-import es.gmbdesign.invoiceme.dto.Documento;
 import es.gmbdesign.invoiceme.exceptions.BackendDAOException;
-import es.gmbdesign.invoiceme.utiles.PropertyUtil;
+import es.gmbdesign.invoiceme.utiles.JWTUtil;
 
 public class RegisterDeviceOnAPI extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final Logger logger = Logger.getLogger(RegisterDeviceOnAPI.class);
        
-    /**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		StringBuilder sb = new StringBuilder();
@@ -48,13 +40,12 @@ public class RegisterDeviceOnAPI extends HttpServlet {
 			}
 			device = (DeviceRegistered) gson.fromJson(sb.toString(), DeviceRegistered.class);
 			if (registarDispositivoEnAPI(device)) {
-				resp.setHeader("Authorization", createJWT(device));
+				resp.setHeader("Authorization", JWTUtil.createJWT(device, "user"));
 				resp.setStatus(HttpServletResponse.SC_CREATED);
 			} else {
 				resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 			}	
 		}catch(Exception e){
-			System.out.println("exception: " + e.getMessage());
 			resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -78,21 +69,4 @@ public class RegisterDeviceOnAPI extends HttpServlet {
 		}
 		return resultado;
 	}
-	
-	private String createJWT (DeviceRegistered device) {
-		String JWT = null;
-		JWT = Jwts.builder()
-				.setSubject("invoiceMe-API")
-				.claim("user", device.getUser())
-				.claim("appVersion", device.getAppVersion())
-				.claim("scope", "user")
-				.signWith(SignatureAlgorithm.HS256, getApiKey())
-				.compact();
-		return JWT;
-	}
-	
-	private byte[] getApiKey() {
-		return PropertyUtil.getProperty("api.key").getBytes();
-	}
-
 }

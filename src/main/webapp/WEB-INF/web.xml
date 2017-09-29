@@ -16,6 +16,14 @@
     <servlet-name>RegisterDeviceOnAPI</servlet-name>
     <url-pattern>/RegisterDeviceOnAPI</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>LoginDeviceOnAPI</servlet-name>
+    <servlet-class>com.invoiceme.servlets.LoginDeviceOnAPI</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoginDeviceOnAPI</servlet-name>
+    <url-pattern>/LoginDeviceOnAPI</url-pattern>
+  </servlet-mapping>
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>
