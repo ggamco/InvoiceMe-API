@@ -13,6 +13,7 @@ import es.gmbdesign.invoiceme.utiles.JWTUtil;
 public class LoginDeviceOnAPI extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final Logger logger = Logger.getLogger(LoginDeviceOnAPI.class);
+	private static final String REGISTER_DEVICE_URI = "RegisterDeviceOnApi";
        
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		logger.warn("Intento de acceso al api a un metodo no permitido desde IP: " + req.getRemoteHost());
@@ -28,8 +29,9 @@ public class LoginDeviceOnAPI extends HttpServlet {
 				resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "El token proporcionado no es valido");
 			}
 		} else {
-			//TODO: recuperar tokendevice y consultar el usuario vinculado. Si se encuentra se crea un nuevo token para la respuesta
-			//TODO: Si no se encuentra, el usuario hace login desde otro dispositivo por lo que hay que registrarlo.
+			//TODO: El dispositivo que intenta hacer login no tiene almacenado el token de autorización por lo que debemos
+			//TODO: recuperar tokendevice y crear un registro nuevo en la base de datos.
+			req.getRequestDispatcher(REGISTER_DEVICE_URI).forward(req, resp);
 		}
 	}
 
