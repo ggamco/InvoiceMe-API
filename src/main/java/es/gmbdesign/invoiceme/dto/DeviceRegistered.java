@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class DeviceRegistered implements Serializable {
 
+	private static final long serialVersionUID = 5581822166030314274L;
 	private int id_deviceRegistered;
 	private String user;
 	private String tokenDevice;

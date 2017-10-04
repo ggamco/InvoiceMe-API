@@ -12,6 +12,7 @@ import es.gmbdesign.invoiceme.exceptions.BackendDAOException;
 
 public class DeviceTokenDAOImpl implements IDeviceTokenDAO {
 	
+	private static final long serialVersionUID = -6552678204368822826L;
 	private static final String SQL_INSERT_TOKENDEVICE = "INSERT INTO deviceRegistered (user, tokenDevice, appVersion) VALUES (?, ?, ?)";
 	private final Logger logger = Logger.getLogger(DeviceTokenDAOImpl.class);
 	
